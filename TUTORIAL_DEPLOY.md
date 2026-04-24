@@ -1,93 +1,97 @@
 # Tutorial de Deploy - Arquivo Imoto
 
-Este guia detalha como realizar o deploy do sistema na sua VPS utilizando Docker Swarm e SQLite.
+Este guia detalha como realizar o deploy e as atualizações do sistema na sua VPS utilizando Docker Swarm e SQLite.
 
 ## Pré-requisitos
 1. Acesso SSH à sua VPS.
 2. Docker e Docker Swarm ativos na VPS.
-3. Rede `echonet` já criada (confirmado no seu relatório).
+3. Rede `echonet` já criada.
 
 ---
 
-## Passo 1: Preparar os arquivos na VPS
-Você precisa levar o código do projeto para a VPS. Você pode fazer isso via `git clone` ou enviando os arquivos via SCP/FTP.
+## 🚀 Primeira Inicialização (Setup Inicial)
 
-Certifique-se de que os seguintes arquivos estão na raiz do projeto na VPS:
-- `Dockerfile`
-- `docker-stack.yml`
-- `package.json`
-- `prisma/` (pasta com o schema)
-- `server/` (pasta com o código do backend)
-- `src/` (pasta com o código do frontend)
-- `public/` (pasta de arquivos estáticos)
+Se você está subindo o sistema pela primeira vez na VPS:
 
----
+### Passo 1: Preparar os arquivos
+No diretório do projeto na VPS (`~/projetos/Imoto`):
+```bash
+git pull origin main
+```
 
-## Passo 2: Construir a imagem Docker
-Na raiz do projeto na VPS, execute o comando para construir a imagem:
-
+### Passo 2: Construir a imagem Docker
 ```bash
 docker build -t imoto-app:latest .
 ```
-*Este comando vai compilar o frontend, instalar as dependências e preparar o ambiente de produção.*
 
----
-
-## Passo 3: Realizar o Deploy do Stack
-Agora, vamos subir o serviço no Swarm:
-
+### Passo 3: Subir o Stack
 ```bash
 docker stack deploy -c docker-stack.yml imoto
 ```
 
----
+### Passo 4: Criar as tabelas do Banco de Dados
+Como o projeto está em estágio inicial e não possui histórico de migrações, usamos o `db push`:
+1. Descubra o ID do container: `docker ps | grep imoto_app`
+2. Execute:
+```bash
+docker exec -it <ID_DO_CONTAINER> npx prisma db push
+```
 
-## Passo 4: Inicializar o Banco de Dados (Primeira vez)
-Como estamos usando SQLite, o arquivo do banco será criado automaticamente dentro do volume persistente. Precisamos rodar as migrações para criar as tabelas:
-
-1. Descubra o ID ou nome do container rodando:
-   ```bash
-   docker ps | grep imoto_app
-   ```
-
-2. Execute as migrações dentro do container:
-   ```bash
-   docker exec -it <ID_DO_CONTAINER> npm run prisma:migrate
-   ```
-
----
-
-## Passo 5: Popular o banco (Opcional)
-Se você quiser importar os dados iniciais que temos no projeto:
-
+### Passo 5: Popular o banco (Opcional)
+Se desejar carregar os dados de exemplo (membros e histórias):
 ```bash
 docker exec -it <ID_DO_CONTAINER> npx tsx prisma/seed_imoto.ts
 ```
 
 ---
 
-## Informações Importantes
+## 🔄 Fluxo de Atualização (Deploy Contínuo)
 
-### 1. Persistência de Dados
-Os dados do banco e as imagens enviadas estão seguros em volumes do Docker:
-- **Banco de Dados**: Volume `imoto_db_data` (mapeado para `/app/data` no container).
-- **Uploads**: Volume `imoto_uploads` (mapeado para `/app/public/uploads` no container).
+Sempre que você fizer alterações no código local e der um `git push`, siga estes passos na VPS para atualizar o site:
 
-Mesmo que o container seja reiniciado ou atualizado, os dados **não serão perdidos**.
+1. **Puxar o novo código:**
+   ```bash
+   git pull origin main
+   ```
 
-### 2. Acesso
-O sistema estará disponível em: `https://imoto.echo.dev.br`
-O Traefik cuidará automaticamente do certificado SSL (HTTPS).
+2. **Reconstruir a imagem:**
+   ```bash
+   docker build -t imoto-app:latest .
+   ```
 
-### 3. Atualizações Futuras
-Sempre que você alterar o código:
-1. Faça o `git pull` na VPS.
-2. Rode o `docker build` novamente.
-3. Rode `docker service update --image imoto-app:latest imoto_app --force` para atualizar o serviço.
+3. **Forçar o Swarm a usar a nova imagem:**
+   ```bash
+   docker service update --image imoto-app:latest imoto_app --force
+   ```
+
+4. **Sincronizar Schema (se alterou o prisma/schema.prisma):**
+   ```bash
+   docker exec -it $(docker ps -q -f name=imoto_app) npx prisma db push
+   ```
 
 ---
 
-## Solução de Problemas
-Se o site não abrir:
-- Verifique os logs do container: `docker service logs -f imoto_app`
-- Verifique se o Traefik está capturando o serviço: `docker service inspect imoto_app`
+## ⚠️ Lições Aprendidas e Dicas Técnicas
+
+### 1. Compatibilidade Express 5
+A rota coringa no `server/index.ts` deve ser definida como `app.get('*path', ...)` em vez de apenas `*`. O Express 5 utiliza uma versão mais rigorosa do `path-to-regexp` que exige nomes para parâmetros variáveis.
+
+### 2. Prisma no Alpine Linux
+Para o Prisma rodar em imagens Alpine (como a nossa), o `Dockerfile` **precisa** incluir a biblioteca `libc6-compat`. Já está configurado no Dockerfile atual, mas evite removê-la.
+
+### 3. Persistência
+Os dados estão seguros nos volumes:
+- `imoto_db_data`: Armazena o banco SQLite (`/app/data/imoto.db`).
+- `imoto_uploads`: Armazena as fotos enviadas (`/app/public/uploads`).
+
+### 4. Logs de Erro
+Se o container estiver reiniciando (loop), use este comando para ver o motivo real do erro:
+```bash
+docker service logs imoto_app --tail 50 -f
+```
+
+---
+
+## Acesso
+- **URL**: `https://imoto.echo.dev.br`
+- **Ambiente**: Produção (Traefik + SSL automático)
