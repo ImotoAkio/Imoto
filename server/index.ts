@@ -816,7 +816,7 @@ app.get('/api/proxy-image', async (req, res) => {
 
 // Catch-all route to serve React app in production
 if (IS_PROD) {
-  app.get('*', (req, res) => {
+  app.get('*path', (req, res) => {
     // Skip API routes
     if (req.path.startsWith('/api')) return;
     
