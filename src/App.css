@@ -1,0 +1,219 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--color-background);
+}
+
+/* Sidebar for Desktop */
+.sidebar {
+  width: 280px;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-8) var(--spacing-6);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar .logo {
+  margin-bottom: var(--spacing-12);
+}
+
+.nav-menu {
+  list-style: none;
+  flex-grow: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-2);
+  transition: background 0.3s ease;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+  font-weight: 600;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  opacity: 1;
+}
+
+/* Main Content Area */
+.main-layout {
+  flex-grow: 1;
+  padding: var(--spacing-8) var(--spacing-12);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.header-kinetic {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-12);
+}
+
+.asymmetric-header {
+  max-width: 600px;
+}
+
+.accent-bar {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  margin-top: var(--spacing-2);
+  border-radius: 2px;
+}
+
+/* Dashboard Grid */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-12);
+}
+
+/* Velocity Cards */
+.velocity-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+}
+
+.stat-card {
+  padding: var(--spacing-6);
+  border-radius: 0px; /* Admin: sharp corners */
+  background-color: var(--color-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.stat-card .value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* The Kinetic Ledger (Table) */
+.ledger-container {
+  background-color: var(--color-surface-container-low);
+  padding: var(--spacing-6);
+  border-radius: 0px;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ledger-table th {
+  text-align: left;
+  padding: var(--spacing-4);
+  color: var(--color-outline);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ledger-row {
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.ledger-row:hover {
+  background-color: var(--color-surface-container);
+}
+
+.ledger-row td {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--color-outline-variant);
+  font-size: 0.875rem;
+}
+
+.ledger-row:last-child td {
+  border-bottom: none;
+}
+
+/* Floating Action Panel (Courier App Style) */
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.offer-card {
+  background-color: var(--color-surface-container-highest);
+  padding: var(--spacing-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+  background-color: var(--color-secondary);
+}
+
+.btn-primary-kinetic {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--spacing-4) var(--spacing-8);
+  border: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+.btn-primary-kinetic:hover {
+  filter: brightness(1.2);
+}
+
+/* Responsive (Mobile Courier) */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--spacing-4) var(--spacing-6);
+  }
+  
+  .sidebar .logo { margin-bottom: 0; }
+  .nav-menu { display: none; }
+  
+  .main-layout {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+  
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .velocity-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .display-lg { font-size: 2.25rem; }
+}

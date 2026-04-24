@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    image: imoto-app:latest
+    networks:
+      - echonet
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=file:/app/data/imoto.db
+      - JWT_SECRET=imoto-production-secret-key-change-me
+      - ADMIN_EMAIL=cesarimoto441@gmail.com
+      - FRONTEND_URL=https://imoto.echo.dev.br
+      - BACKEND_URL=https://imoto.echo.dev.br
+      - SMTP_HOST=smtp.umbler.com
+      - SMTP_PORT=587
+      - SMTP_SECURE=false
+      - SMTP_USER=naoresponda@echo.dev.br
+      - SMTP_PASS=Akio2604*
+      - SMTP_FROM_NAME=Imotos
+      - SMTP_FROM_EMAIL=naoresponda@echo.dev.br
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.imoto.rule=Host(`imoto.echo.dev.br`)"
+        - "traefik.http.routers.imoto.entrypoints=websecure"
+        - "traefik.http.routers.imoto.tls.certresolver=myresolver"
+        - "traefik.http.services.imoto.loadbalancer.server.port=3000"
+    volumes:
+      - imoto_db_data:/app/data
+      - imoto_uploads:/app/public/uploads
+
+networks:
+  echonet:
+    external: true
+
+volumes:
+  imoto_db_data:
+  imoto_uploads:
