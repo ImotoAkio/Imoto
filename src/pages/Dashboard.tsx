@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
             O Legado da <span className="text-primary italic">Família Imoto</span>
           </h1>
           <p className="text-xl md:text-2xl text-secondary max-w-xl font-noto-serif italic leading-relaxed mb-10 opacity-80">
-            Desde as raízes em Okayama até a consolidação no Brasil. Uma jornada de resiliência, inovação e tradição preservada para as gerações futuras.
+            Desde as raízes em Yamaguchi até a consolidação no Brasil. Uma jornada de resiliência, inovação e tradição preservada para as gerações futuras.
           </p>
           <div className="flex flex-wrap gap-6">
             <Link to="/gallery" className="bg-primary text-on-primary px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1 transition-all inline-block text-center shadow-xl">
@@ -105,7 +105,7 @@ const Dashboard: React.FC = () => {
                 <History className="text-primary" size={24} />
               </div>
               <h3 className="font-noto-serif text-3xl mb-3 font-bold text-white">Cronologia</h3>
-              <p className="text-stone-500 text-sm font-noto-serif italic">Os marcos fundamentais da jornada Imoto entre Okayama, Lins e o Nordeste.</p>
+              <p className="text-stone-500 text-sm font-noto-serif italic">Os marcos fundamentais da jornada Imoto entre Yamaguchi, Lins e o Nordeste.</p>
             </div>
             <div className="mt-12 group-hover:translate-x-2 transition-transform">
               <div className="text-primary font-noto-serif text-3xl mb-1 italic font-bold">1912</div>

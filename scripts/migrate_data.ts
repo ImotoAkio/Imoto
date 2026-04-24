@@ -7,10 +7,10 @@ const GOOGLE_SHEET_ID = '18bl6QaVDHRrtjtI8mWVP2PI4oOOU7Qj9TO2jyqOUl1M';
 const timelineEvents = [
   {
     year: 1885,
-    title: 'Raízes em Okayama',
-    description: 'Nascimento de Haruo Imoto na província de Okayama, Japão. Uma linhagem de agricultores e artesãos que moldaram o caráter da família.',
+    title: 'Raízes em Yamaguchi',
+    description: 'Nascimento de Haruo Imoto na província de Yamaguchi, Japão. Uma linhagem de agricultores e artesãos que moldaram o caráter da família.',
     iconName: 'Building2',
-    location: 'Okayama, Japão',
+    location: 'Yamaguchi, Japão',
   },
   {
     year: 1908,
