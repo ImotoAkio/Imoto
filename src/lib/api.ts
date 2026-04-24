@@ -5,6 +5,24 @@ const getAuthHeaders = (): Record<string, string> => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
+/**
+ * Resolves a raw image URL (local path or Drive URL) into a displayable URL.
+ * Automatically handles Google Drive URLs via proxy.
+ */
+export function resolveImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  
+  // Se for um link do Drive ou ID (25+ caracteres alfanuméricos)
+  const driveMatch = url.match(/[-\w]{25,}/);
+  if (url.includes('drive.google.com') || url.includes('docs.google.com') || (driveMatch && !url.includes('/'))) {
+    const id = driveMatch ? driveMatch[0] : url;
+    return `${API_BASE}/proxy-image?id=${id}`;
+  }
+
+  // Se já for um path de upload local
+  return url;
+}
+
 export async function fetchMembers() {
   try {
     const res = await fetch(`${API_BASE}/members`);
@@ -211,16 +229,30 @@ export async function uploadImage(file: File) {
   const formData = new FormData();
   formData.append('image', file);
 
+  const token = localStorage.getItem('token');
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   try {
+    console.log(`🚀 Iniciando upload de: ${file.name} (${file.size} bytes)...`);
     const res = await fetch(`${API_BASE}/upload`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: headers, // Não definir Content-Type manualmente para FormData!
       body: formData,
     });
-    if (!res.ok) throw new Error('Falha no upload');
-    return await res.json();
+    
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `Falha no upload (Status: ${res.status})`);
+    }
+    
+    const data = await res.json();
+    console.log('✅ Upload concluído com sucesso:', data.url);
+    return data;
   } catch (error) {
-    console.error('Erro no upload helper:', error);
+    console.error('❌ Erro crítico no upload helper:', error);
     throw error;
   }
 }

@@ -40,6 +40,9 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/historias ./historias
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/scratch ./scratch
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data && chown node:node /app/data

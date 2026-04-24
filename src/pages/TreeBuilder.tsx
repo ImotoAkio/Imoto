@@ -15,7 +15,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { X, Plus, RefreshCw, Save, Trash2, LayoutTemplate, Link, UserPlus, Scissors, UserMinus, Search, Image as ImageIcon, Upload } from 'lucide-react';
-import { fetchMembers, createMember, updateMember, deleteMember, connectMember, disconnectMember, uploadImage } from '../lib/api';
+import { fetchMembers, createMember, updateMember, deleteMember, connectMember, disconnectMember, uploadImage, resolveImageUrl } from '../lib/api';
 import MemberFlowCard from '../components/MemberFlowCard';
 import { getLayoutedElements } from '../lib/layout';
 
@@ -422,7 +422,7 @@ export default function TreeBuilder() {
                </div>
                {formData.profileImage && (
                   <div className="mt-2 relative w-20 h-20 group">
-                     <img src={formData.profileImage} className="w-full h-full rounded border grayscale object-cover" />
+                     <img src={resolveImageUrl(formData.profileImage)} className="w-full h-full rounded border grayscale object-cover" />
                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[8px] uppercase font-bold">Preview</div>
                   </div>
                )}

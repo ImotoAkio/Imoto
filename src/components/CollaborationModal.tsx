@@ -5,17 +5,25 @@ import { X, Send, Heart, Mail, User, MessageSquare, CheckCircle2, Loader2, Info 
 interface CollaborationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialType?: string;
 }
 
-const CollaborationModal: React.FC<CollaborationModalProps> = ({ isOpen, onClose }) => {
+const CollaborationModal: React.FC<CollaborationModalProps> = ({ isOpen, onClose, initialType = 'HISTORIA' }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    type: 'HISTORIA',
+    type: initialType,
     message: ''
   });
+
+  // Reset form when initialType changes (when modal is opened with different context)
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData(prev => ({ ...prev, type: initialType }));
+    }
+  }, [isOpen, initialType]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

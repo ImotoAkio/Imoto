@@ -429,9 +429,12 @@ app.patch('/api/admin/users/:id/status', requireAuth, requireAdmin, async (req, 
   }
 });
 
-// Multer configuration (Secure)
+// Multer configuration (Secure & Flexible)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
@@ -443,12 +446,12 @@ const storage = multer.diskStorage({
 const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB Limit
+    fileSize: 10 * 1024 * 1024 // Aumentado para 10MB
   },
   fileFilter: (req, file, cb) => {
-    // Apenas imagens
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-    if (allowedMimeTypes.includes(file.mimetype)) {
+    console.log(`🔍 Verificando arquivo: ${file.originalname} (${file.mimetype})`);
+    // Aceitar qualquer imagem para evitar rejeições silenciosas
+    if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
       cb(new Error('Apenas arquivos de imagem são permitidos.'));
@@ -469,11 +472,16 @@ const handleError = (res: express.Response, error: any) => {
 };
 
 // --- Upload API ---
-app.post('/api/upload', requireAuth, upload.single('image'), (req, res) => {
+app.post('/api/upload', requireAuth, (req, res, next) => {
+  console.log('📤 Recebendo tentativa de upload...');
+  next();
+}, upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
+      console.warn('⚠️ Nenhum arquivo foi recebido no upload.');
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
     }
+    console.log(`✅ Upload concluído: ${req.file.filename} (${req.file.size} bytes)`);
     const fileUrl = `/public/uploads/${req.file.filename}`;
     res.json({ url: fileUrl });
   } catch (error) {
@@ -753,6 +761,30 @@ app.delete('/api/events/:id', requireAuth, async (req, res) => {
   }
 });
 
+// --- Stories API ---
+app.get('/api/stories', async (req, res) => {
+  try {
+    const stories = await prisma.story.findMany({
+      orderBy: { publishDate: 'desc' }
+    });
+    res.json(stories);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
+app.get('/api/stories/:id', async (req, res) => {
+  try {
+    const story = await prisma.story.findUnique({
+      where: { id: req.params.id }
+    });
+    if (!story) return res.status(404).json({ error: 'História não encontrada' });
+    res.json(story);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
 // --- Collaboration API ---
 app.post('/api/collaborate', collaborateLimiter, async (req, res) => {
   try {
@@ -768,8 +800,48 @@ app.post('/api/collaborate', collaborateLimiter, async (req, res) => {
 
     console.log(`📧 Nova colaboração recebida de ${name} (${email})`);
     
-    // NOTA: Para envio real de e-mail, configuraríamos o nodemailer aqui.
-    // Por enquanto, salvamos no banco e logamos no servidor.
+    // Enviar e-mail de notificação para o administrador
+    try {
+      await transporter.sendMail({
+        from: getEmailFrom(),
+        to: ADMIN_EMAIL,
+        subject: `Nova Colaboração [${type}] - Arquivo Imoto`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; color: #333; line-height: 1.6;">
+            <div style="border-left: 4px solid #1a237e; padding-left: 15px; margin-bottom: 20px;">
+              <h2 style="color: #1a237e; margin: 0;">Nova Colaboração Recebida</h2>
+              <p style="margin: 5px 0; color: #666; font-size: 14px;">Um membro da família enviou uma nova contribuição através do memorial.</p>
+            </div>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+              <tr>
+                <td style="padding: 10px; border: 1px solid #eee; background: #f9f9f9; width: 120px; font-weight: bold;">Nome:</td>
+                <td style="padding: 10px; border: 1px solid #eee;">${name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #eee; background: #f9f9f9; font-weight: bold;">E-mail:</td>
+                <td style="padding: 10px; border: 1px solid #eee;">${email}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #eee; background: #f9f9f9; font-weight: bold;">Tipo:</td>
+                <td style="padding: 10px; border: 1px solid #eee;">${type}</td>
+              </tr>
+            </table>
+            
+            <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; font-style: italic;">
+              <h4 style="margin: 0 0 10px 0;">Mensagem:</h4>
+              ${message.replace(/\n/g, '<br>')}
+            </div>
+            
+            <p style="margin-top: 30px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; pt: 10px;">
+              Este é um e-mail automático enviado pelo sistema de Arquivo da Família Imoto.
+            </p>
+          </div>
+        `
+      });
+    } catch (mailError) {
+      console.error('❌ Erro ao enviar e-mail de colaboração:', mailError);
+    }
     
     res.json({ success: true, id: contribution.id });
   } catch (error) {
@@ -777,40 +849,39 @@ app.post('/api/collaborate', collaborateLimiter, async (req, res) => {
   }
 });
 
-// --- Proxy API for Google Drive Images ---
+// --- Proxy API for Google Drive Images (Improved) ---
 app.get('/api/proxy-image', async (req, res) => {
-  const { id, sz } = req.query;
+  const { id, sz } = req.query as { id?: string, sz?: string };
   if (!id) return res.status(400).json({ error: 'ID do arquivo é necessário' });
 
+  // Tentar link de thumbnail lh3 (mais confiável)
   const size = sz || 'w1000';
-  const driveUrl = `https://drive.google.com/thumbnail?id=${id}&sz=${size}`;
+  const numericSize = size.replace(/\D/g, '') || '1000';
+  const driveUrl = `https://lh3.googleusercontent.com/d/${id}=s${numericSize}`;
+  
+  console.log(`🔍 Proxying image for ID: ${id} at size ${numericSize}`);
 
   try {
     const response = await fetch(driveUrl);
+    
     if (!response.ok) {
-      throw new Error(`Google Drive respondeu com o status: ${response.status}`);
+      console.error(`❌ Google Drive error ${response.status} for ID ${id}`);
+      return res.status(response.status).json({ 
+        error: 'Google Drive recusou o acesso',
+        details: 'Verifique se o arquivo está compartilhado como "Qualquer pessoa com o link pode ler".' 
+      });
     }
 
-    // Set content type from original response or default to image/jpeg
     const contentType = response.headers.get('content-type') || 'image/jpeg';
-    res.setHeader('Content-Type', contentType);
-    res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache por 1 dia
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    // Use standard Web Stream to pipe to express response
-    if (response.body) {
-      const reader = response.body.getReader();
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(value);
-      }
-      res.end();
-    } else {
-      res.status(500).send('Corpo da resposta vazio');
-    }
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.send(buffer);
   } catch (error: any) {
-    console.error('❌ PROXY ERROR:', error.message);
-    res.status(500).send('Erro ao processar imagem via proxy');
+    console.error('❌ PROXY EXCEPTION:', error.message);
+    res.status(500).json({ error: 'Erro ao processar imagem via proxy', details: error.message });
   }
 });
 
@@ -828,6 +899,23 @@ if (IS_PROD) {
     }
   });
 }
+
+// Global Error Handler for Multer and others
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (err instanceof multer.MulterError) {
+    console.error('❌ MULTER ERROR:', err.code, err.message);
+    return res.status(400).json({ error: `Erro no upload: ${err.message}` });
+  }
+  
+  if (err) {
+    console.error('❌ GLOBAL ERROR:', err.message || err);
+    if (err.stack) console.error(err.stack);
+    return res.status(res.statusCode === 200 ? 500 : res.statusCode).json({ 
+      error: err.message || 'Erro interno no servidor' 
+    });
+  }
+  next();
+});
 
 // Start Server
 app.listen(PORT, () => {

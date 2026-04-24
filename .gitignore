@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+*.db
+*.db-journal
+*.log
+.DS_Store
+.vscode
+.tempmediaStorage
+.gemini
+**/uploads/*
+!**/uploads/.gitkeep

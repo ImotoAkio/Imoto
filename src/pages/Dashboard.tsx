@@ -1,5 +1,5 @@
 import React from 'react';
-import { Share2, FileText, History, Clock, ArrowRight, Camera } from 'lucide-react';
+import { Share2, FileText, History, Clock, ArrowRight, Camera, GraduationCap, MapPin, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -12,31 +12,38 @@ const Dashboard: React.FC = () => {
       className="px-6 md:px-12 pb-12"
     >
       {/* Hero Section */}
-      <section className="mt-8 mb-16 relative overflow-hidden bg-surface-container-low min-h-[500px] flex items-center">
+      <section className="mt-8 mb-16 relative overflow-hidden bg-surface-container-low min-h-[500px] flex items-center rounded-[40px] shadow-2xl border border-white/5">
         <div className="absolute inset-0 z-0">
           <img
             alt="Family portrait"
-            className="w-full h-full object-cover grayscale opacity-40 mix-blend-multiply"
+            className="w-full h-full object-cover grayscale opacity-30 mix-blend-multiply transition-transform duration-[10s] hover:scale-110"
             src="https://images.weserv.nl/?url=https://lh3.googleusercontent.com/pw/AP1GczOifr894TsgXN8RuC6j0AomsR_JjfoZOp4-9X69NQdyXSlGa58YCCTQeT_ehXIlNDxsp8xUmTZVvorhclEmdwYHLFvp_iozBqDH9wPb0-P3IOUG_jLURczHoXZ4PiLCgO-U1FgfjCxUIo69jmw-dJaaEg=w1104-h729-s-no-gm"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
         </div>
-        <div className="relative z-10 max-w-2xl pl-8 md:pl-16">
-          <div className="mb-4 inline-block bg-primary px-3 py-1 text-on-primary text-[10px] tracking-[0.2em] uppercase font-bold">
-            O Legado Vive
-          </div>
-          <h1 className="text-4xl md:text-7xl font-noto-serif text-on-background leading-tight mb-6">
-            Bem-vindos ao <span className="text-primary italic">Legado Imoto</span>
+        <div className="relative z-10 max-w-2xl pl-8 md:pl-20 py-20">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6 inline-flex items-center gap-2 bg-primary/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-primary/30"
+          >
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span className="text-primary-fixed text-[10px] tracking-[0.2em] uppercase font-black">Arquivo Histórico Vivo</span>
+          </motion.div>
+          <h1 className="text-5xl md:text-8xl font-noto-serif text-on-background leading-[1.1] mb-8 font-bold">
+            O Legado da <span className="text-primary italic">Família Imoto</span>
           </h1>
-          <p className="text-lg md:text-xl text-secondary max-w-lg font-body leading-relaxed mb-8">
-            Um arquivo vivo dedicado à preservação da história, dos documentos e das memórias preciosas da nossa família, desde Japão até o Brasil.
+          <p className="text-xl md:text-2xl text-secondary max-w-xl font-noto-serif italic leading-relaxed mb-10 opacity-80">
+            Desde as raízes em Okayama até a consolidação no Brasil. Uma jornada de resiliência, inovação e tradição preservada para as gerações futuras.
           </p>
-          <div className="flex gap-4">
-            <Link to="/gallery" className="bg-primary text-on-primary px-8 py-4 font-bold uppercase tracking-widest text-xs hover:bg-primary-container transition-colors inline-block text-center">
+          <div className="flex flex-wrap gap-6">
+            <Link to="/gallery" className="bg-primary text-on-primary px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1 transition-all inline-block text-center shadow-xl">
               Explorar Acervo
             </Link>
-            <Link to="/stories" className="flex items-center gap-2 text-on-surface font-noto-serif px-4 py-4 hover:bg-surface-container-high transition-colors">
-              <span className="text-primary text-xl">·</span> Nossa História
+            <Link to="/stories" className="flex items-center gap-3 text-on-surface font-noto-serif px-6 py-5 hover:bg-surface-container-high rounded-2xl transition-all group">
+              <History className="text-primary group-hover:rotate-12 transition-transform" size={20} />
+              <span className="font-bold">Nossas Histórias</span>
             </Link>
           </div>
         </div>
@@ -45,174 +52,230 @@ const Dashboard: React.FC = () => {
       {/* Bento Grid Sections */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
         {/* Genealogy Bento */}
-        <Link to="/tree" className="md:col-span-8 bg-surface-container-lowest p-10 relative overflow-hidden group cursor-pointer hover:bg-surface-container-high transition-colors duration-500">
-          <div className="flex justify-between items-start mb-12">
+        <Link to="/tree" className="md:col-span-8 bg-white rounded-[40px] p-12 relative overflow-hidden group cursor-pointer border border-outline/5 shadow-xl hover:shadow-2xl transition-all duration-500">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -mr-20 -mt-20"></div>
+          <div className="flex justify-between items-start mb-16 relative z-10">
             <div>
-              <h3 className="font-noto-serif text-3xl mb-2">Árvore Genealógica</h3>
-              <p className="text-secondary text-sm max-w-sm">Mapeando nossas raízes através das gerações, de 1890 até os dias atuais.</p>
+              <h3 className="font-noto-serif text-4xl mb-3 font-bold">Árvore Genealógica</h3>
+              <p className="text-on-surface-variant/60 text-lg max-w-md font-noto-serif italic">Mapeando nossas raízes através das gerações, de 1890 até os dias atuais.</p>
             </div>
-            <Share2 className="text-primary w-10 h-10" />
+            <div className="bg-primary/10 p-4 rounded-3xl group-hover:rotate-12 transition-transform">
+              <Share2 className="text-primary w-10 h-10" />
+            </div>
           </div>
-          <div className="flex gap-12 items-end">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-surface-container border border-outline-variant flex items-center justify-center font-noto-serif">K.I.</div>
-                <div className="h-[1px] w-8 bg-outline-variant/30"></div>
-                <div className="w-12 h-12 bg-surface-container border border-outline-variant flex items-center justify-center font-noto-serif">M.I.</div>
+          <div className="flex flex-wrap gap-12 items-end relative z-10">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-5">
+                <div className="w-16 h-16 bg-surface-container-high rounded-2xl border border-outline/10 flex items-center justify-center font-noto-serif text-xl shadow-inner">M.I.</div>
+                <div className="h-[2px] w-12 bg-primary/20"></div>
+                <div className="w-16 h-16 bg-surface-container-high rounded-2xl border border-outline/10 flex items-center justify-center font-noto-serif text-xl shadow-inner">K.I.</div>
               </div>
-              <div className="flex items-center gap-4 translate-x-10">
-                <div className="w-12 h-12 bg-primary/10 border border-primary flex items-center justify-center font-noto-serif font-bold text-primary">S.I.</div>
+              <div className="flex items-center gap-5 translate-x-12">
+                <div className="w-20 h-20 bg-primary rounded-3xl border-4 border-white flex items-center justify-center font-noto-serif font-bold text-white text-2xl shadow-2xl transform hover:scale-110 transition-transform">C.I.</div>
+                <p className="text-xs font-bold uppercase tracking-widest text-primary ml-2">Linhagem Principal</p>
               </div>
             </div>
             <div className="ml-auto text-right">
-              <span className="text-4xl font-noto-serif block text-primary">422</span>
-              <span className="text-[10px] uppercase tracking-widest text-secondary">Membros Catalogados</span>
+              <span className="text-6xl font-noto-serif block text-primary font-bold leading-none mb-2">38</span>
+              <span className="text-[10px] uppercase tracking-[0.3em] font-black text-on-surface-variant/40">Membros Catalogados</span>
             </div>
           </div>
         </Link>
 
         {/* Documents Bento */}
-        <div className="md:col-span-4 bg-surface-container-low p-8 flex flex-col justify-between border-l-4 border-primary">
-          <div className="hanko-seal mb-6">書類 </div>
+        <div className="md:col-span-4 bg-inverse-surface rounded-[40px] p-10 flex flex-col justify-between border-b-8 border-primary shadow-xl group hover:-translate-y-2 transition-transform">
+          <div className="hanko-seal scale-125 origin-left mb-10 border-white/20">
+            <span>書</span>
+            <span>類</span>
+          </div>
           <div>
-            <h3 className="font-noto-serif text-2xl mb-4">Documentos Históricos</h3>
-            <p className="text-sm text-on-surface-variant leading-relaxed mb-6">Certidões, passaportes de imigração e registros de terra originais digitalizados em alta resolução.</p>
-            <Link className="text-xs font-bold uppercase tracking-widest border-b border-primary pb-1 text-on-surface hover:text-primary transition-colors" to="/documents">Ver Documentos</Link>
+            <h3 className="font-noto-serif text-3xl mb-4 text-white font-bold">Acervo Digital</h3>
+            <p className="text-base text-inverse-on-surface/60 leading-relaxed mb-8 font-noto-serif italic">Registros de imigração, passaportes e escrituras originais digitalizados para preservação perpétua.</p>
+            <Link className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-primary-fixed border-b-2 border-primary/30 pb-2 hover:text-white hover:border-white transition-all" to="/documents">
+              Ver Documentos <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
 
         {/* Timeline Bento */}
-        <Link to="/timeline" className="md:col-span-4 bg-[#1b1c1a] text-inverse-on-surface p-8 relative overflow-hidden group cursor-pointer block">
+        <Link to="/timeline" className="md:col-span-4 bg-[#1b1c1a] rounded-[40px] text-inverse-on-surface p-10 relative overflow-hidden group cursor-pointer block shadow-xl">
           <div className="relative z-10 h-full flex flex-col justify-between">
             <div>
-              <History className="text-primary mb-4" />
-              <h3 className="font-noto-serif text-2xl mb-2">Linha do Tempo</h3>
-              <p className="text-stone-400 text-xs">Os marcos fundamentais da jornada Imoto entre dois continentes.</p>
+              <div className="bg-primary/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-6 border border-primary/30">
+                <History className="text-primary" size={24} />
+              </div>
+              <h3 className="font-noto-serif text-3xl mb-3 font-bold text-white">Cronologia</h3>
+              <p className="text-stone-500 text-sm font-noto-serif italic">Os marcos fundamentais da jornada Imoto entre Okayama, Lins e o Nordeste.</p>
             </div>
-            <div className="mt-8">
-              <div className="text-primary font-noto-serif text-lg mb-1 italic">1912</div>
-              <div className="text-[10px] uppercase tracking-[0.15em] opacity-70">A Chegada no Porto de Santos</div>
+            <div className="mt-12 group-hover:translate-x-2 transition-transform">
+              <div className="text-primary font-noto-serif text-3xl mb-1 italic font-bold">1912</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] opacity-50 font-black">Início da Trajetória no Brasil</div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <Clock className="w-24 h-24" />
+          <div className="absolute -bottom-8 -right-8 opacity-5 group-hover:scale-125 group-hover:opacity-10 transition-all duration-1000">
+            <Clock className="w-48 h-48" />
           </div>
         </Link>
 
         {/* Gallery Bento */}
-        <Link to="/gallery" className="md:col-span-8 bg-surface-container-lowest grid grid-cols-2 md:grid-cols-4 gap-1 p-1 hover:bg-surface-container-high transition-colors duration-500">
-          <div className="col-span-2 row-span-2 relative group overflow-hidden">
+        <Link to="/gallery" className="md:col-span-8 bg-surface-container-lowest rounded-[40px] grid grid-cols-2 md:grid-cols-4 gap-2 p-2 hover:bg-surface-container-high transition-colors duration-500 shadow-xl overflow-hidden group">
+          <div className="col-span-2 row-span-2 relative overflow-hidden rounded-[32px]">
             <img
-              className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKAfLUb3uyDZVnsiKq1WQfLnC8_uADd6dlIkOepr6LBJMK1vBOwpldN4iUvxm1UZZWuHAYAktOuie688W79XFG86P6_EVzKV2GolO-9A7wuBTNXzlzBxH-ENbw_fCyqAiDVq3d6OlDDkWZchXYquZZOtgWJFai6K8JJWt0ud6h3bEbuOFzta1Oh9ZJanJhgs4s_hc0gVbykwlbnLLsjAK68HrU8MQyEdrjKOCQC1G264RMk39aCY7RxZpeJh9gtDoT0aD0AKQYwXw"
-              alt="Gallery highlight"
+              alt="Family History"
             />
-            <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+              <span className="text-white font-noto-serif text-xl italic">Registros de Aliança</span>
+            </div>
           </div>
-          <div className="bg-surface-container-high flex items-center justify-center p-4">
-            <h3 className="font-noto-serif text-xl text-center">Galeria de Fotos</h3>
+          <div className="bg-surface-container-high rounded-[32px] flex flex-col items-center justify-center p-6 text-center group-hover:bg-primary/5 transition-colors">
+            <Camera className="text-primary mb-3" size={32} />
+            <h3 className="font-noto-serif text-xl font-bold leading-tight">Galeria de Memórias</h3>
           </div>
-          <div className="relative overflow-hidden group">
-            <img className="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGt3EnveMumjsMOVTZR-1pqdPZNdr5xSM-DCyB6Ht0H6hEgy955DOiDpXUjn6HBjlWzt9KvNEhQOK6G_UOm76-iJzEFchlLolkke6OOLpPaOp4WnQRBxe0iLqs7DjekfDXAT7Rwdq6f70EeuICkVyE2JrSId4tDClnL3r0BImxXnbA7QFrR7RGvU1l36gD6x5JEMw8nl3TVWJ2x1eS5-Sq4GgbEI_YazBxbJIpTKQL0KMZ7jcWMXA6ruPLVHTy2nRWzzcYf7Ht0wk" alt="Gallery 1" />
+          <div className="relative overflow-hidden rounded-[32px]">
+            <img className="w-full h-full object-cover grayscale group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGt3EnveMumjsMOVTZR-1pqdPZNdr5xSM-DCyB6Ht0H6hEgy955DOiDpXUjn6HBjlWzt9KvNEhQOK6G_UOm76-iJzEFchlLolkke6OOLpPaOp4WnQRBxe0iLqs7DjekfDXAT7Rwdq6f70EeuICkVyE2JrSId4tDClnL3r0BImxXnbA7QFrR7RGvU1l36gD6x5JEMw8nl3TVWJ2x1eS5-Sq4GgbEI_YazBxbJIpTKQL0KMZ7jcWMXA6ruPLVHTy2nRWzzcYf7Ht0wk" alt="Legacy" />
           </div>
-          <div className="relative overflow-hidden group">
-            <img className="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWDT7-gHWucReJRCsrSoSFfak5Xq5pC0orG4N0U2p-fRR_cWVJm1Mps6DzNcie6OvgTEbyOgC67AsvEZ6mZzd5x6ZohckUsPjhWsI-R5jWzFmItf3gUGHPQ0sTEnVgRbaoVlkw55UsE_VE60QKkvr2GQZbjWwYhk78j-kQljrgnnXKfPb4Hij_D3NtWJ1L2xJw6Lg-SYHlCBh60gZ4RwYOGdluPEEkTvNXaqtlvsIizJrrPym36W_OBE8HkJEyvBBRBEG3IApkd1A" alt="Gallery 2" />
+          <div className="relative overflow-hidden rounded-[32px]">
+            <img className="w-full h-full object-cover grayscale group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWDT7-gHWucReJRCsrSoSFfak5Xq5pC0orG4N0U2p-fRR_cWVJm1Mps6DzNcie6OvgTEbyOgC67AsvEZ6mZzd5x6ZohckUsPjhWsI-R5jWzFmItf3gUGHPQ0sTEnVgRbaoVlkw55UsE_VE60QKkvr2GQZbjWwYhk78j-kQljrgnnXKfPb4Hij_D3NtWJ1L2xJw6Lg-SYHlCBh60gZ4RwYOGdluPEEkTvNXaqtlvsIizJrrPym36W_OBE8HkJEyvBBRBEG3IApkd1A" alt="Heritage" />
           </div>
-          <div className="col-span-2 md:col-span-1 bg-primary flex flex-col items-center justify-center p-4 text-on-primary">
-            <span className="text-2xl font-noto-serif">1.2k+</span>
-            <span className="text-[8px] uppercase tracking-widest text-center">Registros Visuais</span>
+          <div className="col-span-2 md:col-span-1 bg-primary rounded-[32px] flex flex-col items-center justify-center p-6 text-on-primary shadow-xl">
+            <span className="text-3xl font-noto-serif font-bold">120+</span>
+            <span className="text-[8px] uppercase tracking-[0.2em] text-center font-black opacity-80">Arquivos Restaurados</span>
           </div>
         </Link>
       </div>
 
-      {/* Latest Stories Section */}
-      <section className="py-12 border-t border-outline-variant/20">
-        <div className="flex justify-between items-end mb-16">
-          <div>
-            <h2 className="font-noto-serif text-4xl mb-4">Histórias & Memórias</h2>
-            <p className="text-secondary max-w-md">Relatos em primeira mão e tradições orais transcritas para as gerações futuras.</p>
+      {/* Real Stories Section - Data from markdown files */}
+      <section className="py-20 border-t border-outline-variant/10">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="max-w-2xl">
+            <h2 className="font-noto-serif text-5xl md:text-6xl mb-6 font-bold tracking-tight">Histórias de <span className="text-primary">Resiliência</span></h2>
+            <p className="text-secondary text-xl font-noto-serif italic opacity-70">Fragmentos reais da nossa jornada, extraídos dos arquivos originais da família.</p>
           </div>
-          <Link className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2" to="/stories">
-            Ver Todas as Histórias <ArrowRight size={14} />
+          <Link className="px-8 py-4 bg-surface-container rounded-2xl text-xs font-black uppercase tracking-[0.2em] text-on-surface hover:bg-primary hover:text-white transition-all flex items-center gap-3 group shadow-md" to="/stories">
+            Arquivo Completo <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-          {/* Story 1 */}
-          <Link to="/stories" className="flex flex-col group">
-            <div className="mb-6 relative overflow-hidden aspect-[3/4]">
-              <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Lzp7Qt4D4vddCRxh2m3twGihy0TceXy0MkH_ZC9Qg3NpJ68MpW2z9pMZD8BfXADgeMy-etGzjoY0HGWhu3v4JAU37DnoarnzvdnUKV-P31gn28osAxDsOwbL-Kvb3IL0X4N5GKqt13rIke6K44REGcIVpQvG6Ue5xwb032z7AXpc1G8CpVo3s9wvU52BeZ_fK301ORPfuzVFVWcT4LPKLSzypvJ84RYHcsUjajBBgeKFsWAmKe_FzngSM89z1tEe9YrvsieYYFA" alt="Haruo Imoto" />
-              <div className="absolute bottom-4 left-4 bg-background px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
+          {/* Story 1 - Makisuke */}
+          <Link to="/stories" className="flex flex-col group animate-in fade-in slide-in-from-bottom-10 duration-700">
+            <div className="mb-8 relative overflow-hidden aspect-[4/5] rounded-[40px] shadow-2xl">
+              <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" src="/api/proxy-image?id=167DDyeUVtNkCQiclTMnql9IoY0JKT5GD" alt="Makisuke Imoto" />
+              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest text-primary shadow-lg">
                 O Patriarca
               </div>
             </div>
-            <h4 className="font-noto-serif text-2xl mb-3 group-hover:text-primary transition-colors">Haruo Imoto (1885 - 1962)</h4>
-            <p className="text-on-surface-variant text-sm leading-relaxed mb-6 italic">
-              "A travessia no navio Kasato Maru e os primeiros anos nas lavouras de café no interior de São Paulo. Uma história de resiliência e adaptação."
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px flex-grow bg-outline/20"></div>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Getulina · Lins</span>
+              <div className="h-px flex-grow bg-outline/20"></div>
+            </div>
+            <h4 className="font-noto-serif text-3xl mb-4 group-hover:text-primary transition-colors font-bold leading-tight">Capítulo 1: A Travessia e a Conquista da Terra</h4>
+            <p className="text-on-surface-variant text-lg leading-relaxed mb-8 font-noto-serif italic opacity-80">
+              "A história da família Imoto no Brasil tem suas raízes no Japão Imperial. O protagonista desta jornada é Makisuke Imoto, um homem de determinação imensa."
             </p>
-            <div className="h-1 w-12 bg-primary mb-4"></div>
-            <p className="text-[10px] text-secondary uppercase tracking-widest">Narrado por Akira Imoto</p>
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-secondary group-hover:text-on-surface transition-colors">
+              <MapPin size={14} /> Região de Aliança
+            </div>
           </Link>
 
-          {/* Story 2 */}
-          <Link to="/stories" className="flex flex-col md:translate-y-12 group">
-            <div className="mb-6 relative overflow-hidden aspect-[3/4]">
-              <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNkG8L4By8w-gW-zibmkdzpvyg7lMWiRppKrqRVa4uro6Tm6mMyz7T9crfIh3e1t5XknZDirUrr5TwTxYdhQGq59aOYYkF15sZ5LNTlxsV4_TPA-5vS7tRp3HTOrDcbkF5oCHR9gWbq-b0ZRTZrsDAH_z3Ks7YTj6PGetOa2N48SYvNOTzTUvR8jwQWnTOzUW0-hdFGrJ3e8_Wnv4urOSevZUJtRu7YyCUQHeom_1zR-NqgrcjxoN34XniyoZ3J7n-4vkP5BTrVq8" alt="Emiko Imoto" />
-              <div className="absolute bottom-4 left-4 bg-background px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
-                Educação & Sonhos
+          {/* Story 2 - Sakue */}
+          <Link to="/stories" className="flex flex-col md:translate-y-20 group animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
+            <div className="mb-8 relative overflow-hidden aspect-[4/5] rounded-[40px] shadow-2xl">
+              <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" src="https://projetokaeru.org.br/wp-content/uploads/2016/02/kasato_maru_postal_card.jpg" alt="A Chegada" />
+              <div className="absolute top-6 left-6 bg-primary/90 backdrop-blur px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                Resiliência
               </div>
             </div>
-            <h4 className="font-noto-serif text-2xl mb-3 group-hover:text-primary transition-colors">Emiko Imoto (1922 - 2005)</h4>
-            <p className="text-on-surface-variant text-sm leading-relaxed mb-6 italic">
-              "A primeira da família a ingressar na universidade. Como o sonho da educação moldou o futuro das gerações seguintes no Brasil."
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px flex-grow bg-outline/20"></div>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Matriarca Yajima</span>
+              <div className="h-px flex-grow bg-outline/20"></div>
+            </div>
+            <h4 className="font-noto-serif text-3xl mb-4 group-hover:text-primary transition-colors font-bold leading-tight">Capítulo 2: A Imigração Astuciosa e a Força de Sakue</h4>
+            <p className="text-on-surface-variant text-lg leading-relaxed mb-8 font-noto-serif italic opacity-80">
+              "Para contornar as rígidas regras do consulado, a família precisou de astúcia. A verdadeira força estava no coração e na imensa resiliência de Sakue."
             </p>
-            <div className="h-1 w-12 bg-primary mb-4"></div>
-            <p className="text-[10px] text-secondary uppercase tracking-widest">Escrito por Fernanda Imoto</p>
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-secondary group-hover:text-on-surface transition-colors">
+              <History size={14} /> Memórias de Imigração
+            </div>
           </Link>
 
-          {/* Contribute Card */}
-          <div className="flex flex-col">
-            <div className="mb-6 relative overflow-hidden aspect-[3/4] bg-surface-container-high flex flex-col items-center justify-center p-8 text-center">
-              <Camera className="text-primary w-12 h-12 mb-6" />
-              <h5 className="font-noto-serif text-xl mb-2">Preserve uma Memória</h5>
-              <p className="text-xs text-secondary mb-8">Você possui uma foto antiga ou uma história que gostaria de compartilhar com o arquivo?</p>
-              <button className="border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-on-surface hover:text-background transition-colors">Contribuir</button>
+          {/* Story 3 - Inovação e Sertão */}
+          <Link to="/stories" className="flex flex-col group animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
+            <div className="mb-8 relative overflow-hidden aspect-[4/5] rounded-[40px] shadow-2xl border border-outline/5">
+              <img className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" src="/api/proxy-image?id=1pAKkqPb4xT7JDRStxLWyUFrQnVlfWlup" alt="Oásis no Sertão" />
+              <div className="absolute top-6 left-6 bg-white/90 backdrop-blur px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest text-primary shadow-lg">
+                Inovação
+              </div>
             </div>
-          </div>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px flex-grow bg-outline/20"></div>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Getulina · Petrolina</span>
+              <div className="h-px flex-grow bg-outline/20"></div>
+            </div>
+            <h4 className="font-noto-serif text-3xl mb-4 group-hover:text-primary transition-colors font-bold leading-tight">Capítulo 5: Da Queda do Café ao Oásis no Sertão</h4>
+            <p className="text-on-surface-variant text-lg leading-relaxed mb-8 font-noto-serif italic opacity-80">
+              "Com a queda da safra cafeeira, Cyro Imoto reinventou o negócio da família, transformando o semiárido nordestino em um dos maiores polos exportadores."
+            </p>
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-secondary group-hover:text-on-surface transition-colors">
+              <Award size={14} /> Expansão e Sucesso
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* Footer Tonal Layer */}
-      <footer className="mt-24 pt-12 border-t border-outline-variant/10">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-          <div className="max-w-xs">
-            <div className="font-noto-serif text-xl tracking-widest uppercase text-on-surface mb-4">Arquivo Imoto</div>
-            <p className="text-xs text-secondary leading-loose">
-              Este arquivo é mantido pela Associação Memorial Imoto. Todos os direitos reservados à preservação da dignidade e privacidade de nossos ancestrais.
+      {/* Real Functional Footer */}
+      <footer className="mt-20 pt-20 border-t border-outline-variant/10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 mb-20">
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="hanko-seal scale-90 border border-on-surface/10">
+                <span>井</span>
+                <span>本</span>
+              </div>
+              <div className="font-noto-serif text-2xl font-bold tracking-tight uppercase text-on-surface">Arquivo Imoto</div>
+            </div>
+            <p className="text-base text-secondary font-noto-serif italic leading-relaxed opacity-60">
+              Preservando a história das famílias Imoto e Yajima. Um portal dedicado à genealogia, documentos históricos e memórias da imigração japonesa.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-            <div>
-              <h5 className="text-[10px] font-bold uppercase tracking-widest mb-6">Navegação</h5>
-              <ul className="text-sm flex flex-col gap-3 font-noto-serif text-on-surface-variant">
-                <li><Link className="hover:text-primary" to="/">Início</Link></li>
-                <li><Link className="hover:text-primary" to="/gallery">Galeria Digital</Link></li>
-                <li><Link className="hover:text-primary" to="/documents">Registros Civis</Link></li>
-                <li><Link className="hover:text-primary" to="/stories">Histórias</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h5 className="text-[10px] font-bold uppercase tracking-widest mb-6">Privacidade</h5>
-              <ul className="text-sm flex flex-col gap-3 font-noto-serif text-on-surface-variant">
-                <li><Link className="hover:text-primary" to="/admin/tree">Acesso Restrito</Link></li>
-                <li><a className="hover:text-primary" href="#">Termos de Uso</a></li>
-                <li><a className="hover:text-primary" href="#">Política do Acervo</a></li>
-              </ul>
+
+          <div className="lg:col-span-1">
+            <h5 className="text-[11px] font-black uppercase tracking-[0.3em] mb-10 text-primary">Navegação</h5>
+            <ul className="flex flex-col gap-5 text-lg font-noto-serif text-on-surface-variant/70">
+              <li><Link className="hover:text-primary hover:translate-x-2 transition-all inline-block" to="/">Início</Link></li>
+              <li><Link className="hover:text-primary hover:translate-x-2 transition-all inline-block" to="/tree">Árvore Familiar</Link></li>
+              <li><Link className="hover:text-primary hover:translate-x-2 transition-all inline-block" to="/timeline">Linha do Tempo</Link></li>
+              <li><Link className="hover:text-primary hover:translate-x-2 transition-all inline-block" to="/gallery">Galeria Digital</Link></li>
+              <li><Link className="hover:text-primary hover:translate-x-2 transition-all inline-block" to="/stories">Histórias Reais</Link></li>
+            </ul>
+          </div>
+
+          <div className="lg:col-span-1">
+            <div className="bg-surface-container-high rounded-[32px] p-8 border border-outline/10 shadow-xl">
+              <h5 className="text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-on-surface">Institucional</h5>
+              <p className="text-xs text-on-surface-variant leading-relaxed mb-6 italic font-noto-serif">
+                Este memorial é mantido pela Echo Desenvolvimento de Softwares.
+              </p>
+              <div className="flex items-center gap-3 text-[10px] font-bold text-secondary uppercase tracking-widest border-t border-outline/10 pt-6">
+                <MapPin size={14} className="text-primary" />
+                São Paulo · Petrolina
+              </div>
             </div>
           </div>
         </div>
-        <div className="mt-20 py-8 flex justify-between items-center text-[10px] text-secondary tracking-widest uppercase">
-          <span>© 2024 Família Imoto</span>
-          <span>São Paulo · Okayama</span>
+
+        <div className="py-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-secondary/40 font-black tracking-[0.4em] uppercase border-t border-outline-variant/5">
+          <span>© 2026 Memorial Família Imoto - Powered by Echo</span>
+          <div className="flex gap-8">
+            <Link to="/privacy" className="hover:text-primary transition-colors">Privacidade</Link>
+            <Link to="/terms" className="hover:text-primary transition-colors">Termos</Link>
+            <a href="#" className="hover:text-primary transition-colors">Contato</a>
+          </div>
+
         </div>
       </footer>
     </motion.div>

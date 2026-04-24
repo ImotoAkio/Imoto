@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import LayoutProps from './LayoutProps';
 import CollaborationModal from './CollaborationModal';
 import { useAuth } from '../contexts/AuthContext';
-import { 
-  Home, 
-  Share2, 
-  History, 
-  Image as ImageIcon, 
-  Users, 
-  BookOpen, 
+import {
+  Home,
+  Share2,
+  History,
+  Image as ImageIcon,
+  Users,
+  BookOpen,
   Wallet,
   FileText,
   Menu,
@@ -40,10 +40,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isActive = (path: string) => location.pathname === path;
 
   // Fechar menu mobile ao navegar
-  const isAuthPage = location.pathname === '/login' || 
-                    location.pathname === '/register' || 
-                    location.pathname === '/forgot-password' || 
-                    location.pathname.startsWith('/reset-password/');
+  const isAuthPage = location.pathname === '/login' ||
+    location.pathname === '/register' ||
+    location.pathname === '/forgot-password' ||
+    location.pathname.startsWith('/reset-password/');
 
   if (isAuthPage) {
     return <>{children}</>;
@@ -62,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <h1 className="font-noto-serif text-lg font-bold text-on-background tracking-tight leading-tight">Arquivo Imoto</h1>
           </div>
         </div>
-        <button 
+        <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="p-2 -mr-2 text-on-surface hover:bg-surface-container-low transition-colors rounded-full"
         >
@@ -78,11 +78,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-4 px-8 py-5 transition-all duration-300 font-noto-serif font-medium border-b border-white/5 ${
-                  isActive(item.path)
-                    ? 'text-primary-fixed bg-white/10 border-l-4 border-l-primary-fixed'
-                    : 'text-inverse-on-surface/70 hover:bg-white/5 hover:text-inverse-on-surface'
-                }`}
+                className={`flex items-center gap-4 px-8 py-5 transition-all duration-300 font-noto-serif font-medium border-b border-white/5 ${isActive(item.path)
+                  ? 'text-primary-fixed bg-white/10 border-l-4 border-l-primary-fixed'
+                  : 'text-inverse-on-surface/70 hover:bg-white/5 hover:text-inverse-on-surface'
+                  }`}
               >
                 <span className={isActive(item.path) ? 'text-primary-fixed' : 'text-inverse-on-surface/50'}>{item.icon}</span>
                 <span>{item.label}</span>
@@ -93,10 +92,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       )}
 
       {/* Sidebar Navigation */}
-      <nav 
-        className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-inverse-surface text-inverse-on-surface z-40 transition-all duration-300 ease-in-out border-r border-outline/10 ${
-          isCollapsed ? 'w-20' : 'w-72'
-        }`}
+      <nav
+        className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-inverse-surface text-inverse-on-surface z-40 transition-all duration-300 ease-in-out border-r border-outline/10 ${isCollapsed ? 'w-20' : 'w-72'
+          }`}
       >
         <div className={`px-6 pt-8 mb-12 transition-all duration-300 ${isCollapsed ? 'opacity-0 invisible h-0 mb-0' : 'opacity-100'}`}>
           <h1 className="font-noto-serif text-2xl font-bold tracking-tight whitespace-nowrap text-white">Arquivo Imoto</h1>
@@ -118,11 +116,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               key={item.path}
               to={item.path}
               title={isCollapsed ? item.label : ''}
-              className={`flex items-center gap-4 py-4 transition-all duration-300 font-noto-serif font-medium group ${
-                isActive(item.path)
-                  ? 'text-primary-fixed border-l-4 border-primary-fixed bg-white/10'
-                  : 'text-inverse-on-surface/60 hover:bg-white/5 hover:text-white'
-              } ${isCollapsed ? 'justify-center px-0' : 'px-8'}`}
+              className={`flex items-center gap-4 py-4 transition-all duration-300 font-noto-serif font-medium group ${isActive(item.path)
+                ? 'text-primary-fixed border-l-4 border-primary-fixed bg-white/10'
+                : 'text-inverse-on-surface/60 hover:bg-white/5 hover:text-white'
+                } ${isCollapsed ? 'justify-center px-0' : 'px-8'}`}
             >
               <span className={`${isActive(item.path) ? 'text-primary-fixed' : 'text-inverse-on-surface/40 group-hover:text-primary-fixed'} transition-transform duration-300 ${!isCollapsed && 'group-hover:scale-110'}`}>
                 {item.icon}
@@ -136,21 +133,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {/* Admin Section */}
           {(isAuthenticated && isAdmin) && (
             <div className={`mt-8 mb-4 px-8 flex flex-col gap-4 ${isCollapsed ? 'hidden' : ''}`}>
-               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-inverse-on-surface/30">Administração</span>
-               <div className="flex flex-col gap-1">
-                  <Link to="/admin/tree" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
-                     <Settings size={14} /> Árvore
-                  </Link>
-                  <Link to="/admin/archive" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
-                     <Settings size={14} /> Acervo
-                  </Link>
-                  <Link to="/admin/cataloging" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
-                     <Settings size={14} /> Catalogação
-                  </Link>
-                  <Link to="/admin/users" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors mt-2 text-primary-fixed/80">
-                     <Users size={14} /> Usuários
-                  </Link>
-               </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-inverse-on-surface/30">Administração</span>
+              <div className="flex flex-col gap-1">
+                <Link to="/admin/tree" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
+                  <Settings size={14} /> Árvore
+                </Link>
+                <Link to="/admin/archive" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
+                  <Settings size={14} /> Acervo
+                </Link>
+                <Link to="/admin/cataloging" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors">
+                  <Settings size={14} /> Catalogação
+                </Link>
+                <Link to="/admin/users" className="text-sm font-noto-serif flex items-center gap-3 text-inverse-on-surface/50 hover:text-primary-fixed transition-colors mt-2 text-primary-fixed/80">
+                  <Users size={14} /> Usuários
+                </Link>
+              </div>
             </div>
           )}
         </div>
@@ -172,10 +169,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
               <div className={`transition-all duration-300 ${isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
                 <p className="text-xs font-bold uppercase tracking-widest whitespace-nowrap text-white">Família Imoto</p>
-                <p className="text-[10px] text-inverse-on-surface/50 whitespace-nowrap">São Paulo / Okayama</p>
+                <p className="text-[10px] text-inverse-on-surface/50 whitespace-nowrap">Japão &gt; Brasil</p>
               </div>
             </div>
-            
+
             <div className={`transition-all duration-300 ${isCollapsed ? 'opacity-0 w-0 h-0 overflow-hidden m-0' : 'opacity-100 mt-2'}`}>
               {isAuthenticated ? (
                 <div className="flex items-center justify-between bg-black/20 px-3 py-2 rounded-lg border border-white/5">
@@ -196,16 +193,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </nav>
 
       {/* Main Content Area */}
-      <main 
-        className={`flex-grow w-full h-[calc(100vh-73px)] mt-[73px] lg:h-screen lg:mt-0 overflow-y-auto transition-all duration-300 ease-in-out ${
-          isCollapsed ? 'lg:ml-20' : 'lg:ml-72'
-        }`}
+      <main
+        className={`flex-grow w-full h-[calc(100vh-73px)] mt-[73px] lg:h-screen lg:mt-0 overflow-y-auto transition-all duration-300 ease-in-out ${isCollapsed ? 'lg:ml-20' : 'lg:ml-72'
+          }`}
       >
         {children}
       </main>
 
       {/* Global Collaboration Button (FAB) */}
-      <button 
+      <button
         onClick={() => setIsCollabOpen(true)}
         title="Colaborar com o Memorial"
         className="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary flex flex-col items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:scale-110 active:scale-95 transition-all z-[1000] group"

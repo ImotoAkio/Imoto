@@ -24,6 +24,8 @@ import TreeBuilder from './pages/TreeBuilder';
 import ArchiveManager from './pages/ArchiveManager';
 import Cataloging from './pages/Cataloging';
 import UsersManagement from './pages/admin/UsersManagement';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 // Auth Pages
 import Login from './pages/auth/Login';
@@ -55,6 +57,10 @@ const AppContent: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+          {/* Legal Routes */}
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
 
           {/* Protected Admin Routes */}
           <Route path="/admin/tree" element={<ProtectedRoute requireAdmin><TreeBuilder /></ProtectedRoute>} />

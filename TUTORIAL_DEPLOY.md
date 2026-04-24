@@ -40,7 +40,11 @@ docker exec -it <ID_DO_CONTAINER> npx prisma db push
 ### Passo 5: Popular o banco (Opcional)
 Se desejar carregar os dados de exemplo (membros e histórias):
 ```bash
+# Para membros e dados básicos
 docker exec -it <ID_DO_CONTAINER> npx tsx prisma/seed_imoto.ts
+
+# Para as histórias reais dos arquivos MD
+docker exec -it <ID_DO_CONTAINER> npx tsx scratch/seed_real_stories.ts
 ```
 
 ---
