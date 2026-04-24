@@ -269,7 +269,7 @@ const Documents: React.FC = () => {
     const loadData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/api/artifacts');
+        const response = await fetch('/api/artifacts');
         if (!response.ok) throw new Error('Falha ao buscar dados');
         const data = await response.json();
         

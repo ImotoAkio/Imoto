@@ -206,7 +206,7 @@ const ArchiveManager: React.FC = () => {
     setIsSaving(true);
     try {
       const { url } = await uploadImage(file);
-      const fullUrl = `http://localhost:3000${url}`;
+      const fullUrl = `${url}`;
       setSelectedItem((prev: any) => ({ 
         ...prev, 
         mediaUrl: fullUrl,

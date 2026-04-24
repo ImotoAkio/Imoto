@@ -85,8 +85,8 @@ const Cataloging: React.FC = () => {
   const fetchInitialData = useCallback(async () => {
     try {
       const [artRes, memRes] = await Promise.all([
-        fetch('http://localhost:3000/api/artifacts'),
-        fetch('http://localhost:3000/api/members')
+        fetch('/api/artifacts'),
+        fetch('/api/members')
       ]);
       const artData = await artRes.json();
       const memData = await memRes.json();
@@ -128,7 +128,7 @@ const Cataloging: React.FC = () => {
     setSaving(true);
     
     try {
-      const response = await fetch(`http://localhost:3000/api/artifacts/${currentArtifact.id}`, {
+      const response = await fetch(`/api/artifacts/${currentArtifact.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -46,7 +46,7 @@ export const formatDriveImageUrl = (url: string): string => {
     if (id) {
        // Usamos o backend rodando na porta 3000 como proxy
        // sz=w2000 para alta resolução no preview
-       return `http://localhost:3000/api/proxy-image?id=${id}&sz=w2000`;
+       return `/api/proxy-image?id=${id}&sz=w2000`;
     }
     return url;
   } catch (e) {
@@ -77,7 +77,7 @@ export const getDriveThumbnailUrl = (urlOrId: string, size: string = 'w600'): st
   // Se chegamos aqui e temos algo que parece um ID (não é uma URL com slash etc)
   if (id && !id.includes('/')) {
     const sizeClean = size.replace('w', '').replace('h', '');
-    return `http://localhost:3000/api/proxy-image?id=${id}&sz=w${sizeClean}`;
+    return `/api/proxy-image?id=${id}&sz=w${sizeClean}`;
   }
   
   return null;

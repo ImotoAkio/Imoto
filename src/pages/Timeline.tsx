@@ -27,7 +27,7 @@ const Timeline: React.FC = () => {
     const loadEvents = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/api/events');
+        const response = await fetch('/api/events');
         if (!response.ok) throw new Error('Falha ao carregar eventos');
         const data = await response.json();
         setEvents(data);
