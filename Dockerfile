@@ -29,7 +29,7 @@ RUN npx vite build
 FROM node:20-alpine
 
 # Install OpenSSL for Prisma Client
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 
