@@ -11,6 +11,7 @@ import Layout from './components/Layout';
 
 // Pages
 import Dashboard from './pages/Dashboard';
+import Landing from './pages/Landing';
 import Genealogy from './pages/Genealogy';
 import Timeline from './pages/Timeline';
 import Gallery from './pages/Gallery';
@@ -41,7 +42,8 @@ const AppContent: React.FC = () => {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {/* Public Routes */}
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           
           {/* Protected Content Routes */}
           <Route path="/tree" element={<ProtectedRoute><Genealogy /></ProtectedRoute>} />

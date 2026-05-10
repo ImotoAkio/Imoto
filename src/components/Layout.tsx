@@ -28,7 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isAuthenticated, isAdmin, logout, user } = useAuth();
 
   const navItems = [
-    { label: 'Início', path: '/', icon: <Home size={20} /> },
+    { label: 'Landing', path: '/', icon: <Globe size={20} /> },
+    { label: 'Início', path: '/dashboard', icon: <Home size={20} /> },
     { label: 'Árvore', path: '/tree', icon: <Share2 size={20} /> },
     { label: 'Linha do Tempo', path: '/timeline', icon: <History size={20} /> },
     { label: 'Galeria', path: '/gallery', icon: <ImageIcon size={20} /> },
