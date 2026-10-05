@@ -45,14 +45,14 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
           
-          {/* Protected Content Routes */}
-          <Route path="/tree" element={<ProtectedRoute><Genealogy /></ProtectedRoute>} />
-          <Route path="/timeline" element={<ProtectedRoute><Timeline /></ProtectedRoute>} />
-          <Route path="/gallery" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
-          <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
-          <Route path="/stories" element={<ProtectedRoute><Stories /></ProtectedRoute>} />
-          <Route path="/profiles" element={<ProtectedRoute><Profiles /></ProtectedRoute>} />
-          <Route path="/profile/:id" element={<ProtectedRoute><MemberProfile /></ProtectedRoute>} />
+          {/* Public Content Routes */}
+          <Route path="/tree" element={<Genealogy />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/documents" element={<Documents />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/profiles" element={<Profiles />} />
+          <Route path="/profile/:id" element={<MemberProfile />} />
           
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
