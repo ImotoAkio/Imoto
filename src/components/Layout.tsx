@@ -17,7 +17,8 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  HeartHandshake
+  HeartHandshake,
+  Globe
 } from 'lucide-react';
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {

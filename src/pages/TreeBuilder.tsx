@@ -20,8 +20,8 @@ import MemberFlowCard from '../components/MemberFlowCard';
 import { getLayoutedElements } from '../lib/layout';
 
 export default function TreeBuilder() {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [members, setMembers] = useState<any[]>([]);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

@@ -281,9 +281,10 @@ const Cataloging: React.FC = () => {
     </div>
   );
 
-  const getProxyUrl = (mediaUrl: string) => {
+  const getProxyUrl = (mediaUrl?: string | null): string => {
+    if (!mediaUrl) return '';
     const idMatch = mediaUrl.match(/[-\w]{25,}/);
-    if (idMatch) return getDriveThumbnailUrl(idMatch[0], 'w1600');
+    if (idMatch) return getDriveThumbnailUrl(idMatch[0], 'w1600') || '';
     return mediaUrl;
   };
 
@@ -354,7 +355,7 @@ const Cataloging: React.FC = () => {
                 {currentArtifact?.type === 'PHOTO' ? (
                   <img 
                     src={getProxyUrl(currentArtifact.mediaUrl)} 
-                    alt={currentArtifact.title}
+                    alt={currentArtifact.title || ''}
                     className="max-w-full max-h-[70vh] object-contain pointer-events-none border border-white/5"
                   />
                 ) : (

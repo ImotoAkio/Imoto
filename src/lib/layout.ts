@@ -1,5 +1,5 @@
 import dagre from 'dagre';
-import { Node, Edge } from '@xyflow/react';
+import { Node, Edge, Position } from '@xyflow/react';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -44,7 +44,7 @@ export const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'T
 
   dagre.layout(dagreGraph);
 
-  const newNodes = nodes.map((node) => {
+  const newNodes: Node[] = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     
     let width = nodeWidth;
@@ -60,8 +60,8 @@ export const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'T
 
     return {
       ...node,
-      targetPosition: isHorizontal ? 'left' : 'top',
-      sourcePosition: isHorizontal ? 'right' : 'bottom',
+      targetPosition: isHorizontal ? Position.Left : Position.Top,
+      sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
       position: {
         x: nodeWithPosition.x - width / 2,
         y: nodeWithPosition.y - height / 2,

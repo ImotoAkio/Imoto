@@ -124,7 +124,7 @@ const Login: React.FC = () => {
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest">
                     Chave de Acesso
                   </label>
-                  <Link to="/forgot-password" size="sm" className="text-[11px] text-imoto-400 hover:text-imoto-300 transition-colors uppercase font-bold tracking-tighter">
+                  <Link to="/forgot-password" className="text-[11px] text-imoto-400 hover:text-imoto-300 transition-colors uppercase font-bold tracking-tighter">
                     Esqueceu?
                   </Link>
                 </div>

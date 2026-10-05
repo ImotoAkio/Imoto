@@ -73,8 +73,8 @@ const ProfileModal: React.FC<{ member: any; onClose: () => void }> = ({ member, 
 );
 
 const GenealogyContent: React.FC = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [allMembers, setAllMembers] = useState<any[]>([]);
   const [selectedMember, setSelectedMember] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -161,7 +161,7 @@ const GenealogyContent: React.FC = () => {
         minZoom={0.05} maxZoom={5}
         nodesDraggable={true} zoomOnDoubleClick={false} className="archival-flow"
       >
-        <Background color="#1C352D" gap={40} size={1} opacity={0.03} />
+        <Background color="#1C352D" gap={40} size={1} />
         <Panel position="bottom-left"><SmartControls selectedId={selectedMember?.id || null} /></Panel>
       </ReactFlow>
 
